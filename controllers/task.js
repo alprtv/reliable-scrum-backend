@@ -2,13 +2,13 @@ const app = new (require('express').Router)();
 const models = require('../models');
 const HttpError = require('../error').HttpError;
 
-app.get('/api/v1/cards', (req, res, next) => {
+app.get('/api/v1/tasks', (req, res, next) => {
 
-  models.Card.find()
-   .exec().then((cards) => {
+  models.Task.find()
+   .exec().then((tasks) => {
       res.json({
         error: false,
-        payload: cards
+        payload: tasks
       });
    }).catch(err => {
      console.log(err);
@@ -17,15 +17,15 @@ app.get('/api/v1/cards', (req, res, next) => {
 
 });
 
-app.post('/api/v1/cards', (req, res, next) => {
+app.post('/api/v1/tasks', (req, res, next) => {
 
   const body = req.body;
-  const newCard = new models.Card(body);
+  const newTask = new models.Task(body);
 
-  newCard.save().then((journal) => {
+  newTask.save().then((task) => {
     res.json({
       error: false,
-      payload: journal._id
+      payload: task._id
     });
   }).catch(next);
 

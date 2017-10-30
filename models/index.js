@@ -1,4 +1,4 @@
 module.exports = {
-  Card: require('./card')
+  Task: require('./task')
 };
 
