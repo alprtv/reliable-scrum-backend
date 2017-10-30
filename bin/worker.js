@@ -7,17 +7,15 @@ const cors = require('cors');
 const Logger = new require('../logger');
 const logger = new Logger();
 const config = require('../config');
-let app = express();
+const corsOptions = {
+  origin: true,
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+  credentials: true
+}
 
+let app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-var corsOptions = {
-  origin: true,
-  methods: ['GET', 'POST'],
-  credentials: true,
-  maxAge: 3600
-}
 app.use(cors(corsOptions));
 
 app.use(require('./../middleware/sendHttpError'));
