@@ -1,0 +1,22 @@
+{
+  "name": "reliable-scrum-backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon bin/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.4",
+    "mongoose-unique-validator": "^1.0.6",
+    "nodemon": "^1.12.1",
+    "stack-trace": "0.0.10"
+  }
+}
