@@ -1,42 +1,38 @@
 const mongoose = require('mongoose');
 
-let taskSchema = new mongoose.Schema({
+const TaskSchema = new mongoose.Schema({
   _kanbantool: {
     type: Number,
-    required: [true, "_kanbantool"],
+    required: [true, '_kanbantool'],
   },
   name: {
     type: String,
-    required: [true, "nameRequired"],
-    minlength: [3, "tooShort"]
+    required: [true, 'nameRequired'],
+  },
+  description: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    required: [true, 'createdAtRequired'],
+  },
+  updatedAt: {
+    type: Date,
+    required: [true, 'updatedAtRequired'],
   },
   value: {
     type: Number,
-    required: [true, "valueRequired"]
+    required: [true, 'valueRequired']
   },
   sprintAdd: {
     type: Number,
-    required: [true, "sprintAddRequired"]
+    required: [true, 'sprintAddRequired']
   },
   sprintDone: {
     type: Number,
-    required: [true, "sprintDoneRequired"]
-  },
-  states: {
-    type: [{
-      _kanbantool: Number,
-      name: String,
-      value: Number,
-      sprintAdd: Number,
-      sprintDone: Number
-    }]
+    required: [true, 'sprintDoneRequired']
   }
 });
 
-taskSchema.virtual('created').get( function () {
-  if (this["_created"]) return this["_created"];
-  return this["_created"] = this._id.getTimestamp();
-});
-
-module.exports = mongoose.model('Task', taskSchema);
+module.exports = TaskSchema;
 
