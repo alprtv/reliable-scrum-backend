@@ -1,6 +1,6 @@
 const app = new (require('express').Router)();
 
-app.use(require('./task'));
+app.use(require('./board'));
 
 // for nonexistent route
 app.use(function(req, res, next){
