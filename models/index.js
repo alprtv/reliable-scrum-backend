@@ -1,4 +1,4 @@
 module.exports = {
-  Task: require('./task')
+  Board: require('./board')
 };
 
