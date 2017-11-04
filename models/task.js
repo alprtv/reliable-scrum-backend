@@ -1,36 +1,41 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
-  _kanbantool: {
+  idKbTool: {
     type: Number,
-    required: [true, '_kanbantool'],
+    required: [true, '_kanbantoolIsRequired'],
+  },
+  swimlaneId: {
+    type: Number,
+    required: [true, 'swimlaneIdIsRequired'],
   },
   name: {
     type: String,
-    required: [true, 'nameRequired'],
+    required: [true, 'nameIsRequired'],
   },
   description: {
     type: String,
+    default: 'Description is empty'
   },
   createdAt: {
     type: Date,
-    required: [true, 'createdAtRequired'],
+    required: [true, 'createdAtIsRequired'],
   },
   updatedAt: {
     type: Date,
-    required: [true, 'updatedAtRequired'],
+    required: [true, 'updatedAtIsRequired'],
   },
   value: {
     type: Number,
-    required: [true, 'valueRequired']
+    required: [true, 'valueIsRequired']
   },
   sprintAdd: {
     type: Number,
-    required: [true, 'sprintAddRequired']
+    required: [true, 'sprintAddIsRequired']
   },
   sprintDone: {
     type: Number,
-    required: [true, 'sprintDoneRequired']
+    required: [true, 'sprintDoneIsRequired']
   }
 });
 
