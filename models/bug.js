@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 const BugSchema = new mongoose.Schema({
-  createdAt: {
+  sprintNum: {
     type: Date,
-    required: [true, 'createdAtRequired'],
+    required: [true, 'createdAtIsRequired'],
   },
   value: {
     type: Number,
-    required: [true, 'valueRequired']
+    required: [true, 'valueIsRequired']
   }
 });
 
