@@ -9,6 +9,10 @@ const TaskSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'swimlaneIdIsRequired'],
   },
+  stageId: {
+    type: Number,
+    required: [true, 'stageIdIsRequired'],
+  },
   name: {
     type: String,
     required: [true, 'nameIsRequired'],
