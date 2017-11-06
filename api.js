@@ -26,9 +26,18 @@ const fetchBoard = function (id) {
   });
 }
 
-
 const fetchTasks = function (id) {
   return axios.get(`boards/${id}/tasks.json`)
+  .then(function (res) {
+    return res;
+  })
+  .catch(function (err) {
+    return err;
+  });
+}
+
+const fetchTask = function (boardId, taskId) {
+  return axios.get(`boards/${boardId}/tasks/${taskId}.json`)
   .then(function (res) {
     return res;
   })
@@ -40,4 +49,5 @@ const fetchTasks = function (id) {
 module.exports.fetchBoards = fetchBoards;
 module.exports.fetchBoard = fetchBoard;
 module.exports.fetchTasks = fetchTasks;
+module.exports.fetchTask = fetchTask;
 
