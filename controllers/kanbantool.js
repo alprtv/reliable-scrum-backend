@@ -6,6 +6,7 @@ const fetchTasks = require('../api').fetchTasks;
 const fetchTask = require('../api').fetchTask;
 const normalizeUndoneTask = require('../common').normalizeUndoneTask;
 const normalizeDoneTask = require('../common').normalizeDoneTask;
+const Promise = require('bluebird');
 
 function ApiException(message) {
    this.message = message;
@@ -102,50 +103,76 @@ app.get('/api/v1/kanbantools/boards/:boardId/tasks', (req, res, next) => {
   //const boardId = req.params.id;
   const undoneStagesIds = [2558931, 2558933, 2558935, 2558937];
   const doneStagesIds = [2565921, 2565923, 2558949, 2558959];
-  const startProject = '2017-08-13T01:53:30.000-07:00';
+  let startProject = '2017-08-13T01:53:30.000-07:00';
   const bugStageId = 2558925;
   const bugCardTypeId = 3958725;
 
   fetchTasks(boardId).then( rawData => {
-    const data = rawData.data;
-    if (!data) throw new ApiException('Error fetchBoard');
+
+    const actualTasks = rawData.data;
+    if (!actualTasks) throw new ApiException('Error fetchBoard actualTasks');
+    return actualTasks;
+
+  }).then(actualTasks => {
+
+    const archived = 1;
+    return fetchTasks(boardId, archived).then( rawData => {
+      const archivedTasks = rawData.data;
+      if (!archivedTasks) throw new ApiException('Error fetchBoard archivedTasks');
+
+      return [...actualTasks, ...archivedTasks];
+    });
+
+  }).then(rawTasks => {
+
+    const firstTask = findFirstTask(rawTasks);
+    startProject = firstTask.created_at;
+    return rawTasks;
+
+  }).then(rawTasks => {
 
     let undoneTasks = [];
-    let rawDoneTasks = [];
+    let doneTasksIds = [];
 
-    for (task of data) {
-      if (task.time_estimate >= 0 &&
-          task.workflow_stage_id !== bugStageId &&
-          task.card_type_id !== bugCardTypeId) {
-
+    for (task of rawTasks) {
+      if ( task.card_type_id !== bugCardTypeId && task.time_estimate) {
         if (undoneStagesIds.includes(task.workflow_stage_id)) {
           undoneTasks.push(normalizeUndoneTask(task, startProject));
+        } else {
+          if (doneStagesIds.includes(task.workflow_stage_id)) {
+            doneTasksIds.push(task.id);
+          }
         }
-        if (doneStagesIds.includes(task.workflow_stage_id)) {
-          rawDoneTasks.push(task);
-        }
-
       }
     }
+    return { undoneTasks, doneTasksIds };
 
-    return { undoneTasks, rawDoneTasks };
-  }).then( tasks => {
+  }).then(data => {
 
-    let doneTasks = [];
-    const fetchDoneTasks = tasks.rawDoneTasks.map( task => {
-      return fetchTask(boardId, task.id);
+    let current = Promise.resolve();
+    const fetchDoneTasks = data.doneTasksIds.map(taskId => {
+      current = current.then(() => fetchTask(boardId, taskId)).then(result => result.data);
+      return current;
+    });
+    return Promise.all(fetchDoneTasks).then(rawDoneTasks => {
+      const doneTasks = rawDoneTasks.map(taskData => {
+        return normalizeDoneTask(taskData.task, startProject, doneStagesIds);
+      })
+      return { undoneTasks: data.undoneTasks, doneTasks};
     });
 
-    Promise.all(fetchDoneTasks).then( results => {
-      console.log(results);
-    });
+  }).then( data => {
+
+    console.log('data.undoneTasks.length', data.undoneTasks.length);
+    console.log('data.doneTasks.length', data.doneTasks.length);
 
     res.json({
       success: true,
-      payload: tasks
+      payload: data.doneTasks
     });
 
   }).catch((error) => {
+    console.error(error);
     res.json({
       success: false,
       payload: error
@@ -155,4 +182,19 @@ app.get('/api/v1/kanbantools/boards/:boardId/tasks', (req, res, next) => {
 });
 
 module.exports = app;
+
+function findFirstTask(tasks) {
+  let minDate = Date.now();
+  let indexFirstTask = 0;
+
+  for (let i = 0; i < tasks.length; i++) {
+    const taskDate = Date.parse(tasks[i].created_at);
+    if ( taskDate < minDate) {
+      minDate = taskDate;
+      indexFirstTask = i;
+    }
+  }
+
+  return tasks[indexFirstTask];
+}
 
