@@ -3,7 +3,8 @@ const config = require('./config/api');
 
 var axios = axiosLib.create({
   baseURL: 'https://devspace.kanbantool.com/api/v1/',
-  headers: {'X-KanbanToolToken': config.token}
+  headers: {'X-KanbanToolToken': config.token},
+  timeout: 10000000,
 });
 
 const fetchBoards = function () {
@@ -26,10 +27,22 @@ const fetchBoard = function (id) {
   });
 }
 
-const fetchTasks = function (id, archived) {
+const fetchTasks = function (id) {
+  return axios.get(`boards/${id}/tasks.json`)
+  .then(function (res) {
+    return res;
+  })
+  .catch(function (err) {
+    return err;
+  });
+}
+
+const fetchArchivedTasks = function (id, page, perPage) {
   return axios.get(`boards/${id}/tasks.json`, {
     params: {
-      archived: archived || 0,
+      archived: 1,
+      page: page,
+      per_page: perPage,
     }
   })
   .then(function (res) {
@@ -54,5 +67,6 @@ const fetchTask = function (boardId, taskId) {
 module.exports.fetchBoards = fetchBoards;
 module.exports.fetchBoard = fetchBoard;
 module.exports.fetchTasks = fetchTasks;
+module.exports.fetchArchivedTasks = fetchArchivedTasks;
 module.exports.fetchTask = fetchTask;
 
