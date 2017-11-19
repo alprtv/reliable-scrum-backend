@@ -58,7 +58,7 @@ function calcSprintNumByDate(start, createdAt) {
   const diffInDays = dateDiffInDays(start, createdAt);
   const sprintLength = 7;
 
-  return Math.ceil(diffInDays / sprintLength);
+  return Math.floor(diffInDays / sprintLength);
 }
 
 function dateDiffInDays(a, b) {
