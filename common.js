@@ -51,7 +51,7 @@ const normalizeDoneTask = function (task, startProject, doneStagesIds) {
 }
 
 function msecToHours (value) {
-  return Math.round(value / 3600);
+  return value / 3600;
 }
 
 function calcSprintNumByDate(start, createdAt) {
