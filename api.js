@@ -26,8 +26,12 @@ const fetchBoard = function (id) {
   });
 }
 
-const fetchTasks = function (id) {
-  return axios.get(`boards/${id}/tasks.json`)
+const fetchTasks = function (id, archived) {
+  return axios.get(`boards/${id}/tasks.json`, {
+    params: {
+      archived: archived || 0,
+    }
+  })
   .then(function (res) {
     return res;
   })
@@ -35,6 +39,7 @@ const fetchTasks = function (id) {
     return err;
   });
 }
+
 
 const fetchTask = function (boardId, taskId) {
   return axios.get(`boards/${boardId}/tasks/${taskId}.json`)
