@@ -1,4 +1,4 @@
-require('./dbinit');
+//require('./dbinit');
 
 const express = require('express');
 const path = require('path');
