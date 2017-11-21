@@ -1,5 +1,5 @@
 {
-  "port": 3001,
+  "port": 80,
   "mongoUri": "mongodb://127.0.0.1:27017/reliable-scrum"
 }
 
