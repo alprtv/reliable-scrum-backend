@@ -1,9 +1,9 @@
 const axiosLib = new require('axios');
-const config = require('./config/api');
+//const config = require('./config/api');
 
 var axios = axiosLib.create({
   baseURL: 'https://devspace.kanbantool.com/api/v1/',
-  headers: {'X-KanbanToolToken': config.token},
+  headers: {'X-KanbanToolToken': process.env.token},
   timeout: 10000000,
 });
 
