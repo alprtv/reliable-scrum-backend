@@ -3,7 +3,7 @@ const normalizeUndoneTask = function (task, startProject) {
   const createdAt = new Date(task.created_at);
   const updatedAt = new Date(task.updated_at);
   const dateStartProject = new Date(startProject);
-
+  // sprintAdd: calcSprintNumByDate(dateStartProject, createdAt)
   return {
     id: task.id,
     stageId: task.workflow_stage_id,
@@ -13,7 +13,7 @@ const normalizeUndoneTask = function (task, startProject) {
     createdAt,
     updatedAt,
     value: msecToHours(task.time_estimate),
-    sprintAdd: calcSprintNumByDate(dateStartProject, createdAt),
+    sprintAdd: 0,
     sprintDone: null,
   }
 }
@@ -22,7 +22,7 @@ const normalizeDoneTask = function (task, startProject, doneStagesIds) {
   const createdAt = new Date(task.created_at);
   const updatedAt = new Date(task.updated_at);
   const dateStartProject = new Date(startProject);
-  const sprintAdd = calcSprintNumByDate(dateStartProject, createdAt);
+  const sprintAdd = 0;
   const actionMoved = 'moved';
   const changelogs = task.changelogs;
   let sprintDone = sprintAdd;

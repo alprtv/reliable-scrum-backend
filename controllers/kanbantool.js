@@ -120,13 +120,13 @@ app.get('/api/v1/kanbantools/boards/:boardId/tasks', (req, res, next) => {
 
   }).then(actualTasks => {
 
-    const totalPages = 2;
+    const totalPages = 1;
     let archivedTasksPromises = [];
     let archivedTasks = [];
     let current = Promise.resolve();
 
     for (let page = 1; page <= totalPages; page++) {
-      archivedTasksPromises.push(current.then(() => fetchArchivedTasks(boardId, page, 175)).then(result => result.data));
+      archivedTasksPromises.push(current.then(() => fetchArchivedTasks(boardId, page, 20)).then(result => result.data));
     }
 
     return Promise.all(archivedTasksPromises).then(archivedTasksData => {
