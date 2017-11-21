@@ -9,8 +9,7 @@ const logger = new Logger();
 const config = require('../config');
 const corsOptions = {
   origin: '*',
-  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-  credentials: true
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE'
 }
 
 let app = express();
