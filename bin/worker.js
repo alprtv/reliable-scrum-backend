@@ -8,7 +8,7 @@ const Logger = new require('../logger');
 const logger = new Logger();
 const config = require('../config');
 const corsOptions = {
-  origin: '*',
+  origin: true,
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
   credentials: false
 }
