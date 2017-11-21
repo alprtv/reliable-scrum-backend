@@ -2,5 +2,4 @@ node_modules
 database
 database_files
 public
-config/api.json
 
