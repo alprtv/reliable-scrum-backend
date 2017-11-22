@@ -2,4 +2,5 @@ node_modules
 database
 database_files
 public
+lambda/*.zip
 

@@ -1,0 +1,13 @@
+{
+  "name": "reliable-scrum-lambda",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "author": "alprtv",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.0",
+    "bluebird": "^3.5.1"
+  }
+}
+
