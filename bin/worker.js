@@ -23,10 +23,10 @@ app.use(require('./../middleware/apiSendJson'));
 app.use(require('./../controllers'));
 app.use(require('./errorHandler'));
 
-var port = process.env.PORT || 8080;
+const port = process.env.PORT || config.port;
 
 app.listen(port ,err => {
   if(err) throw err;
-  else logger.info(`Running server at port ${config.port}!`)
+  else logger.info(`Running server at port ${port}!`)
 });
 
