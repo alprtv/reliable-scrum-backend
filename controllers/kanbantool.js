@@ -50,7 +50,7 @@ app.get('/api/v1/kanbantools/boards/:id', (req, res, next) => {
     if (!data) throw new ApiException('Error fetchBoard');
     let stages = [];
 
-    for (stage of data.board.workflow_stages) {
+    for (let stage of data.board.workflow_stages) {
       const id = stage.id;
       const parentId = stage.parent_id;
       let hasChilds = false;
@@ -58,7 +58,7 @@ app.get('/api/v1/kanbantools/boards/:id', (req, res, next) => {
       if (parentId) {
         let name = stage.name;
 
-        for ( let parentStage of data.board.workflow_stages) {
+        for (let parentStage of data.board.workflow_stages) {
           if (parentStage.parent_id === id) {
             hasChilds = true;
           }
@@ -146,7 +146,7 @@ app.get('/api/v1/kanbantools/boards/:boardId/tasks', (req, res, next) => {
     let undoneTasks = [];
     let doneTasksIds = [];
 
-    for (task of rawTasks) {
+    for (let task of rawTasks) {
       if ( !ignoreCardTypeIds.includes(task.card_type_id) && task.time_estimate) {
         if (undoneStagesIds.includes(task.workflow_stage_id)) {
           undoneTasks.push(normalizeUndoneTask(task, startProject));
